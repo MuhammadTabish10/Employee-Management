@@ -6,7 +6,7 @@ import com.example.EmployeeManagement.service.DepartmentService;
 import com.example.EmployeeManagement.model.Department;
 import com.example.EmployeeManagement.repository.DepartmentRepository;
 import com.example.EmployeeManagement.repository.EmployeeRepository;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -65,11 +65,18 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     @Transactional
-    public String delete(Long id) {
+    public void delete(Long id) {
         Department department = departmentRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(String.format("Department Not found at id => %d", id)));
-        employeeRepository.setStatusToFalseWhereId(department.getId());
-        return String.format("Department Deleted at id => %d", id);
+        employeeRepository.setStatusWhereId(department.getId(), false);
+    }
+
+    @Override
+    @Transactional
+    public void setToActive(Long id) {
+        Department department = departmentRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(String.format("Department Not found at id => %d", id)));
+        employeeRepository.setStatusWhereId(department.getId(), true);
     }
 
     public DepartmentDto toDto(Department department){

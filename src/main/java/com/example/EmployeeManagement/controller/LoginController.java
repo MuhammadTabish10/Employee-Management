@@ -6,7 +6,7 @@ import com.example.EmployeeManagement.dto.UserDto;
 import com.example.EmployeeManagement.service.UserService;
 import com.example.EmployeeManagement.service.impl.MyUserDetailServiceImpl;
 import com.example.EmployeeManagement.dto.AuthenticationResponse;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;

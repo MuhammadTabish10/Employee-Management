@@ -2,8 +2,9 @@ package com.example.EmployeeManagement.dto;
 
 import com.example.EmployeeManagement.model.Employee;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

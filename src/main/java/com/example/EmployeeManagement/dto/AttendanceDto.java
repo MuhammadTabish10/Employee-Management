@@ -3,7 +3,7 @@ package com.example.EmployeeManagement.dto;
 import com.example.EmployeeManagement.enums.AttendanceStatus;
 import com.example.EmployeeManagement.model.Employee;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

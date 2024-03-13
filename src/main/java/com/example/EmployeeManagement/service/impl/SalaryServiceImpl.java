@@ -6,7 +6,7 @@ import com.example.EmployeeManagement.service.SalaryService;
 import com.example.EmployeeManagement.model.Salary;
 import com.example.EmployeeManagement.repository.EmployeeRepository;
 import com.example.EmployeeManagement.repository.SalaryRepository;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -74,11 +74,18 @@ public class SalaryServiceImpl implements SalaryService {
 
     @Override
     @Transactional
-    public String delete(Long id) {
+    public void delete(Long id) {
         Salary salary = salaryRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(String.format("Salary Not found at id => %d", id)));
-        salaryRepository.setStatusToFalseWhereId(salary.getId());
-        return String.format("Salary Deleted at id => %d", id);
+        salaryRepository.setStatusWhereId(salary.getId(), false);
+    }
+
+    @Override
+    @Transactional
+    public void setToActive(Long id) {
+        Salary salary = salaryRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(String.format("Salary Not found at id => %d", id)));
+        salaryRepository.setStatusWhereId(salary.getId(), true);
     }
 
     public SalaryDto toDto(Salary salary){

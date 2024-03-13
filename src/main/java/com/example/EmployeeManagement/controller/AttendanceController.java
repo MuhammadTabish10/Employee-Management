@@ -2,11 +2,12 @@ package com.example.EmployeeManagement.controller;
 
 import com.example.EmployeeManagement.dto.AttendanceDto;
 import com.example.EmployeeManagement.service.AttendanceService;
-import jakarta.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -44,7 +45,15 @@ public class AttendanceController {
     }
     @DeleteMapping("/attendance/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<String> deleteAttendanceById(@PathVariable Long id){
-        return ResponseEntity.ok(attendanceService.delete(id));
+    public ResponseEntity<Void> deleteAttendanceById(@PathVariable Long id){
+        attendanceService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/attendance/{id}/status")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Void> setAttendanceStatusToActiveById(@PathVariable Long id){
+        attendanceService.setToActive(id);
+        return ResponseEntity.ok().build();
     }
 }

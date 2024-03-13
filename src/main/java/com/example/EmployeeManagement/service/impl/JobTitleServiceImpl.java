@@ -5,7 +5,7 @@ import com.example.EmployeeManagement.service.JobTitleService;
 import com.example.EmployeeManagement.dto.JobTitleDto;
 import com.example.EmployeeManagement.model.JobTitle;
 import com.example.EmployeeManagement.repository.JobTitleRepository;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -61,11 +61,18 @@ public class JobTitleServiceImpl implements JobTitleService {
 
     @Override
     @Transactional
-    public String delete(Long id) {
+    public void delete(Long id) {
         JobTitle jobTitle = jobTitleRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(String.format("JobTitle Not found at id => %d", id)));
-        jobTitleRepository.setStatusToFalseWhereId(jobTitle.getId());
-        return String.format("JobTitle Deleted at id => %d", id);
+        jobTitleRepository.setStatusWhereId(jobTitle.getId(), false);
+    }
+
+    @Override
+    @Transactional
+    public void setToActive(Long id) {
+        JobTitle jobTitle = jobTitleRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(String.format("JobTitle Not found at id => %d", id)));
+        jobTitleRepository.setStatusWhereId(jobTitle.getId(), true);
     }
 
     public JobTitleDto toDto(JobTitle jobTitle){

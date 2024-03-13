@@ -13,6 +13,6 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
     List<Department> findAllByStatus(Boolean status);
 
     @Modifying
-    @Query("UPDATE Department d SET d.status = false WHERE d.id = :id")
-    void setStatusToFalseWhereId(Long id);
+    @Query("UPDATE Department d SET d.status = :status WHERE d.id = :id")
+    void setStatusWhereId(Long id, Boolean status);
 }

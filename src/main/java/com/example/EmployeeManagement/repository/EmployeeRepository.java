@@ -11,11 +11,11 @@ import java.util.List;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findAllByStatus(Boolean status);
-
     List<Employee> findAllByJobTitle_Id(Long jobTitleId);
     List<Employee> findAllByDepartment_Id(Long departmentId);
-
+    Integer countByStatusTrue();
+    Integer countByStatusFalse();
     @Modifying
-    @Query("UPDATE Employee e SET e.status = false WHERE e.id = :id")
-    void setStatusToFalseWhereId(Long id);
+    @Query("UPDATE Employee e SET e.status = :status WHERE e.id = :id")
+    void setStatusWhereId(Long id, Boolean status);
 }

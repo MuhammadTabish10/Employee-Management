@@ -11,5 +11,6 @@ public interface EmployeeService {
     List<EmployeeDto> getAllEmployeesByDepartment(Long departmentId);
     EmployeeDto getEmployeeById(Long id);
     EmployeeDto update(Long id, EmployeeDto employeeDto);
-    String delete(Long id);
+    void delete(Long id);
+    void setToActive(Long id);
 }

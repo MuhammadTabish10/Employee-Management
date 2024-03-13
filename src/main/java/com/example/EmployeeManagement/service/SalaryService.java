@@ -9,5 +9,6 @@ public interface SalaryService {
     List<SalaryDto> getAllSalary(Boolean status);
     SalaryDto getSalaryById(Long id);
     SalaryDto update(Long id, SalaryDto salaryDto);
-    String delete(Long id);
+    void delete(Long id);
+    void setToActive(Long id);
 }

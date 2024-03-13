@@ -1,44 +1,56 @@
 package com.example.EmployeeManagement.config.swagger;
 
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.ExternalDocumentation;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Contact;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.*;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
+import springfox.documentation.spring.web.plugins.Docket;
+
+import java.util.Collections;
+import java.util.List;
 
 // http://localhost:8080/swagger-ui/index.html#/
 // /v3/api-docs
 
 @Configuration
 public class SwaggerConfig {
+        public static final String AUTHORIZATION_HEADER = "Authorization";
 
-    @Bean
-    public OpenAPI employeeMangementOpenAPI() {
+        private ApiKey apiKeys(){
+            return new ApiKey("JWT",AUTHORIZATION_HEADER,"header");
+        }
 
-        String schemeName="bearerScheme";
+        private List<SecurityReference> securityReferenceList(){
+            AuthorizationScope scope = new AuthorizationScope("global","accessEverything");
+            return Collections.singletonList(new SecurityReference("JWT", new AuthorizationScope[]{scope}));
+        }
 
-        return new OpenAPI()
-                .info(new Info().title("Employee Management Api")
-                        .description("Employee Management sample application")
-                        .version("v0.0.1")
-                        .contact(new Contact().name("Tabish").email("muhammadtabish05@gmail.com").url("https://www.linkedin.com/in/muhammad-tabish-rashid-392b3a1a5/"))
-                        .license(new License().name("Apache 2.0").url("http://springdoc.org")))
-                .addSecurityItem(new SecurityRequirement().addList(schemeName))
-                .components(new Components()
-                        .addSecuritySchemes(schemeName,new SecurityScheme()
-                                .name(schemeName)
-                                .type(SecurityScheme.Type.HTTP)
-                                .bearerFormat("JWT")
-                                .scheme("bearer")
-                        )
-                )
-                .externalDocs(new ExternalDocumentation()
-                        .description("Employee Management Wiki Documentation")
-                        .url("https://springshop.wiki.github.org/docs"));
+        private List<SecurityContext> securityContexts(){
+            return Collections.singletonList(SecurityContext.builder().securityReferences(securityReferenceList()).build());
+        }
+
+        @Bean
+        public Docket api() {
+            return new Docket(DocumentationType.SWAGGER_2)
+                    .securityContexts(securityContexts())
+                    .securitySchemes(Collections.singletonList(apiKeys()))
+                    .select()
+                    .apis(RequestHandlerSelectors.basePackage("com.example.EmployeeManagement"))
+                    .paths(PathSelectors.any())
+                    .build().apiInfo(apiInfoMetaData());
+        }
+
+        private ApiInfo apiInfoMetaData() {
+            return new ApiInfoBuilder().title("EmployeeManagement")
+                    .description("EmployeeManagement Api Documentation")
+                    .contact(new Contact("Tabish", "https://www.stepwaysoftwares.com", "muhammadtabish05@gmail.com"))
+                    .license("License of Apis")
+                    .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
+                    .version("1.0")
+                    .build();
+        }
     }
-}

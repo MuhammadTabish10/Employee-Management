@@ -13,6 +13,6 @@ public interface JobTitleRepository extends JpaRepository<JobTitle, Long> {
     List<JobTitle> findAllByStatus(Boolean status);
 
     @Modifying
-    @Query("UPDATE JobTitle jt SET jt.status = false WHERE jt.id = :id")
-    void setStatusToFalseWhereId(Long id);
+    @Query("UPDATE JobTitle jt SET jt.status = :status WHERE jt.id = :id")
+    void setStatusWhereId(Long id, Boolean status);
 }

@@ -6,7 +6,7 @@ import com.example.EmployeeManagement.model.Attendance;
 import com.example.EmployeeManagement.repository.AttendanceRepository;
 import com.example.EmployeeManagement.repository.EmployeeRepository;
 import com.example.EmployeeManagement.service.AttendanceService;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +22,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         this.attendanceRepository = attendanceRepository;
         this.employeeRepository = employeeRepository;
     }
+
 
     @Override
     @Transactional
@@ -86,11 +87,18 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     @Transactional
-    public String delete(Long id) {
+    public void delete(Long id) {
         Attendance attendance = attendanceRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(String.format("Attendance Not found at id => %d", id)));
-        attendanceRepository.setStatusToFalseWhereId(attendance.getId());
-        return String.format("Attendance Deleted at id => %d", id);
+        attendanceRepository.setStatusWhereId(attendance.getId(), false);
+    }
+
+    @Override
+    @Transactional
+    public void setToActive(Long id) {
+        Attendance attendance = attendanceRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(String.format("Attendance Not found at id => %d", id)));
+        attendanceRepository.setStatusWhereId(attendance.getId(), true);
     }
 
     public AttendanceDto toDto(Attendance attendance){

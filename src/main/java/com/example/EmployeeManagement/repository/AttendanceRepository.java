@@ -14,6 +14,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
     List<Attendance> findAllByEmployee_Id(Long employeeId);
 
     @Modifying
-    @Query("UPDATE Attendance a SET a.status = false WHERE a.id = :id")
-    void setStatusToFalseWhereId(Long id);
+    @Query("UPDATE Attendance a SET a.status = :status WHERE a.id = :id")
+    void setStatusWhereId(Long id, Boolean status);
 }

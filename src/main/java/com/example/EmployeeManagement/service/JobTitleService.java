@@ -9,5 +9,6 @@ public interface JobTitleService {
     List<JobTitleDto> getAllJobTitle(Boolean status);
     JobTitleDto getJobTitleById(Long id);
     JobTitleDto update(Long id, JobTitleDto jobTitleDto);
-    String delete(Long id);
+    void delete(Long id);
+    void setToActive(Long id);
 }

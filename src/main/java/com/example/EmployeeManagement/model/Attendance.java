@@ -1,11 +1,12 @@
 package com.example.EmployeeManagement.model;
 
 import com.example.EmployeeManagement.enums.AttendanceStatus;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 import java.sql.Time;
 import java.time.LocalDate;

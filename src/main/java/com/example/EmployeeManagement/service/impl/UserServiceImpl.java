@@ -8,7 +8,7 @@ import com.example.EmployeeManagement.model.User;
 import com.example.EmployeeManagement.repository.RoleRepository;
 import com.example.EmployeeManagement.repository.UserRepository;
 import com.example.EmployeeManagement.service.UserService;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -81,11 +81,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public String delete(Long id) {
+    public void delete(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(String.format("User Not found at id => %d", id)));
-        userRepository.setStatusToFalseWhereId(user.getId());
-        return String.format("User Deleted at id => %d", id);
+        userRepository.setStatusWhereId(user.getId(), false);
+    }
+
+    @Override
+    @Transactional
+    public void setToActive(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(String.format("User Not found at id => %d", id)));
+        userRepository.setStatusWhereId(user.getId(), true);
     }
 
     public UserDto toDto(User user){

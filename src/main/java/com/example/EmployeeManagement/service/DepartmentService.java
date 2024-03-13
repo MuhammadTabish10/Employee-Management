@@ -9,5 +9,6 @@ public interface DepartmentService {
     List<DepartmentDto> getAllDepartment(Boolean status);
     DepartmentDto getDepartmentById(Long id);
     DepartmentDto update(Long id, DepartmentDto departmentDto);
-    String delete(Long id);
+    void delete(Long id);
+    void setToActive(Long id);
 }

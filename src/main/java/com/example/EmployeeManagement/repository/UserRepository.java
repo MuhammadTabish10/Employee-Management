@@ -15,6 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
      List<User> findAllByStatus(Boolean status);
 
      @Modifying
-     @Query("UPDATE User us SET us.status = false WHERE us.id = :id")
-     void setStatusToFalseWhereId(Long id);
+     @Query("UPDATE User us SET us.status = :status WHERE us.id = :id")
+     void setStatusWhereId(Long id, Boolean status);
 }

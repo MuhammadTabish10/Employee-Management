@@ -1,7 +1,9 @@
 package com.example.EmployeeManagement.dto;
 
-import jakarta.validation.constraints.Email;
+
 import lombok.*;
+
+import javax.validation.constraints.Email;
 
 @AllArgsConstructor
 @NoArgsConstructor

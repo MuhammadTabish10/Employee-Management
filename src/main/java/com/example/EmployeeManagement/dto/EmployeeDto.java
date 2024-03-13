@@ -3,10 +3,11 @@ package com.example.EmployeeManagement.dto;
 import com.example.EmployeeManagement.model.Department;
 import com.example.EmployeeManagement.model.JobTitle;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.PastOrPresent;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.PastOrPresent;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,7 +39,7 @@ public class EmployeeDto {
     private LocalDate dateOfBirth;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @PastOrPresent(message = "Date of Birth should be past or Present")
+    @PastOrPresent(message = "HireDate should be past or Present")
     private LocalDate hireDate;
 
     private Boolean status;

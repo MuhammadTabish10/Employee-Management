@@ -9,5 +9,6 @@ public interface UserService {
     List<UserDto> getAllUser(Boolean status);
     UserDto getUserById(Long id);
     UserDto update(Long id, UserDto userDto);
-    String delete(Long id);
+    void delete(Long id);
+    void setToActive(Long id);
 }

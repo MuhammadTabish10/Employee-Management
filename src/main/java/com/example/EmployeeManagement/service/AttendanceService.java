@@ -10,5 +10,6 @@ public interface AttendanceService {
     AttendanceDto getAttendanceById(Long id);
     List<AttendanceDto> getAllAttendanceByEmployeeId(Long employeeId);
     AttendanceDto update(Long id ,AttendanceDto attendanceDto);
-    String delete(Long id);
+    void delete(Long id);
+    void setToActive(Long id);
 }

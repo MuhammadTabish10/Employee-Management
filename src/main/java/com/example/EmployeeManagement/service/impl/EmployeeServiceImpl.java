@@ -7,7 +7,7 @@ import com.example.EmployeeManagement.model.Employee;
 import com.example.EmployeeManagement.repository.DepartmentRepository;
 import com.example.EmployeeManagement.repository.EmployeeRepository;
 import com.example.EmployeeManagement.repository.JobTitleRepository;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -108,11 +108,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
-    public String delete(Long id) {
+    public void delete(Long id) {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(String.format("Attendance Not found at id => %d", id)));
-        employeeRepository.setStatusToFalseWhereId(employee.getId());
-        return String.format("Employee Deleted at id => %d", id);
+        employeeRepository.setStatusWhereId(employee.getId(), false);
+    }
+
+    @Override
+    @Transactional
+    public void setToActive(Long id) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(String.format("Attendance Not found at id => %d", id)));
+        employeeRepository.setStatusWhereId(employee.getId(), true);
     }
 
     public EmployeeDto toDto(Employee employee){

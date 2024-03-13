@@ -31,7 +31,15 @@ public class UserController {
     }
     @DeleteMapping("/user/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<String> deleteUserById(@PathVariable Long id){
-        return ResponseEntity.ok(userService.delete(id));
+    public ResponseEntity<Void> deleteUserById(@PathVariable Long id){
+        userService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/user/{id}/status")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Void> setUserStatusToActiveById(@PathVariable Long id) {
+        userService.setToActive(id);
+        return ResponseEntity.ok().build();
     }
 }
