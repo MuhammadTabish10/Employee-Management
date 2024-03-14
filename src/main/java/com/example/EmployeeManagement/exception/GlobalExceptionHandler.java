@@ -43,6 +43,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<Map<String, String>>(errors,HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorMessage<Object>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        Map<String, String> errors = new HashMap<>();
+
+        ErrorMessage<Object> errorMessage = ErrorMessage.builder()
+                .error(ex.getMessage())
+                .time(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(errorMessage,HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorMessage<Object>> handleBadCredentialsException(BadCredentialsException ex) {
 

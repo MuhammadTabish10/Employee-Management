@@ -30,7 +30,7 @@ public class JobTitleServiceImpl implements JobTitleService {
 
     @Override
     public List<JobTitleDto> getAllJobTitle(Boolean status) {
-        List<JobTitle> jobTitles= jobTitleRepository.findAllByStatus(status);
+        List<JobTitle> jobTitles= jobTitleRepository.findAllByStatusOrderByIdDesc(status);
         List<JobTitleDto> jobTitlesDto = new ArrayList<>();
 
         for(JobTitle jobTitle : jobTitles){

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface SalaryRepository extends JpaRepository<Salary, Long> {
-    List<Salary> findAllByStatus(Boolean status);
+    List<Salary> findAllByStatusOrderByIdDesc(Boolean status);
 
     @Modifying
     @Query("UPDATE Salary s SET s.status = :status WHERE s.id = :id")

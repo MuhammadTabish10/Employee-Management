@@ -39,7 +39,6 @@ public class EmployeeDto {
     private LocalDate dateOfBirth;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @PastOrPresent(message = "HireDate should be past or Present")
     private LocalDate hireDate;
 
     private Boolean status;

@@ -34,7 +34,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<DepartmentDto> getAllDepartment(Boolean status) {
-        List<Department> departmentList = departmentRepository.findAllByStatus(status);
+        List<Department> departmentList = departmentRepository.findAllByStatusOrderByIdDesc(status);
         List<DepartmentDto> departmentDtoList = new ArrayList<>();
 
         for(Department department : departmentList){

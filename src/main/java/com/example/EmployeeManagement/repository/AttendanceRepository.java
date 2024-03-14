@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
-    List<Attendance> findAllByStatus(Boolean status);
+    List<Attendance> findAllByStatusOrderByIdDesc(Boolean status);
     List<Attendance> findAllByEmployee_Id(Long employeeId);
 
     @Modifying

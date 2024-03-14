@@ -49,7 +49,7 @@ public class DashboardServiceImpl implements DashboardService {
     @Override
     public Map<String, Integer> getTotalEmployeesAccordingToJobTitle() {
         Map<String,Integer> jobEmployeeMap = new HashMap<>();
-        List<Employee> employeeList = employeeRepository.findAllByStatus(true);
+        List<Employee> employeeList = employeeRepository.findAllByStatusOrderByIdDesc(true);
         for(Employee employee : employeeList){
             String jobTitle = employee.getJobTitle().getTitle();
             jobEmployeeMap.put(jobTitle, jobEmployeeMap.getOrDefault(jobTitle,0) + 1);

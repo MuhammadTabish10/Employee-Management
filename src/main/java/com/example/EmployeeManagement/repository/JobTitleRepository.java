@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface JobTitleRepository extends JpaRepository<JobTitle, Long> {
-    List<JobTitle> findAllByStatus(Boolean status);
+    List<JobTitle> findAllByStatusOrderByIdDesc(Boolean status);
 
     @Modifying
     @Query("UPDATE JobTitle jt SET jt.status = :status WHERE jt.id = :id")

@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getAllUser(Boolean status) {
-        List<User> userList = userRepository.findAllByStatus(status);
+        List<User> userList = userRepository.findAllByStatusOrderByIdDesc(status);
         List<UserDto> userDtoList = new ArrayList<>();
 
         for (User user : userList) {

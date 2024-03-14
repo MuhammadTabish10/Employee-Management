@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
      Optional<User> findByEmailAndStatusIsTrue(String email);
-     List<User> findAllByStatus(Boolean status);
+     List<User> findAllByStatusOrderByIdDesc(Boolean status);
 
      @Modifying
      @Query("UPDATE User us SET us.status = :status WHERE us.id = :id")

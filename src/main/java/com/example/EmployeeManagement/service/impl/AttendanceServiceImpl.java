@@ -38,7 +38,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public List<AttendanceDto> getAllAttendance(Boolean status) {
-        List<Attendance> attendanceList = attendanceRepository.findAllByStatus(status);
+        List<Attendance> attendanceList = attendanceRepository.findAllByStatusOrderByIdDesc(status);
         List<AttendanceDto> attendanceDtoList = new ArrayList<>();
 
         for(Attendance attendance : attendanceList){

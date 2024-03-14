@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.EmployeeManagement.util.Helper.validateEmployeeDto;
+
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
@@ -28,6 +30,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional
     public EmployeeDto save(EmployeeDto employeeDto) {
+        validateEmployeeDto(employeeDto);
         Employee employee = toEntity(employeeDto);
         employee.setStatus(true);
 
@@ -42,7 +45,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<EmployeeDto> getAllEmployee(Boolean status) {
-        List<Employee> employeeList = employeeRepository.findAllByStatus(status);
+        List<Employee> employeeList = employeeRepository.findAllByStatusOrderByIdDesc(status);
         List<EmployeeDto> employeeDtoList = new ArrayList<>();
 
         for(Employee employee : employeeList){
@@ -86,6 +89,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional
     public EmployeeDto update(Long id, EmployeeDto employeeDto) {
+        validateEmployeeDto(employeeDto);
+
         Employee existingEmployee = employeeRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(String.format("Employee Not found at id => %d", id)));
 

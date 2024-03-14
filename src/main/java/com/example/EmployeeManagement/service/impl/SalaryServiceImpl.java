@@ -38,7 +38,7 @@ public class SalaryServiceImpl implements SalaryService {
 
     @Override
     public List<SalaryDto> getAllSalary(Boolean status) {
-        List<Salary> salaries = salaryRepository.findAllByStatus(status);
+        List<Salary> salaries = salaryRepository.findAllByStatusOrderByIdDesc(status);
         List<SalaryDto> salaryDtoList = new ArrayList<>();
 
         for(Salary salary : salaries){

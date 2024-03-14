@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-    List<Employee> findAllByStatus(Boolean status);
+    List<Employee> findAllByStatusOrderByIdDesc(Boolean status);
     List<Employee> findAllByJobTitle_Id(Long jobTitleId);
     List<Employee> findAllByDepartment_Id(Long departmentId);
     Integer countByStatusTrue();
