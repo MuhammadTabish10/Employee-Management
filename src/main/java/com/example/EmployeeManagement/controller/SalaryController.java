@@ -38,7 +38,7 @@ public class SalaryController {
     }
     @PutMapping("/salary/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<SalaryDto> updateSalary(@Valid @PathVariable Long id, @RequestBody SalaryDto salaryDto){
+    public ResponseEntity<SalaryDto> updateSalary(@PathVariable Long id, @Valid @RequestBody SalaryDto salaryDto){
         SalaryDto salary = salaryService.update(id,salaryDto);
         return ResponseEntity.ok(salary);
     }

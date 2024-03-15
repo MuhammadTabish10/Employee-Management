@@ -39,7 +39,7 @@ public class AttendanceController {
     }
     @PutMapping("/attendance/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<AttendanceDto> updateAttendance(@Valid @PathVariable Long id, @RequestBody AttendanceDto attendanceDto){
+    public ResponseEntity<AttendanceDto> updateAttendance(@PathVariable Long id, @Valid @RequestBody AttendanceDto attendanceDto){
         AttendanceDto attendance = attendanceService.update(id, attendanceDto);
         return ResponseEntity.ok(attendance);
     }

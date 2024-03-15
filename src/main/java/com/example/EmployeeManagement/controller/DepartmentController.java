@@ -38,7 +38,7 @@ public class DepartmentController {
     }
     @PutMapping("/department/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<DepartmentDto> updateDepartment(@Valid @PathVariable Long id, @RequestBody DepartmentDto departmentDto){
+    public ResponseEntity<DepartmentDto> updateDepartment(@PathVariable Long id, @Valid @RequestBody DepartmentDto departmentDto){
         DepartmentDto department = departmentService.update(id,departmentDto);
         return ResponseEntity.ok(department);
     }

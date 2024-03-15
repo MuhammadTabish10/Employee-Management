@@ -38,7 +38,7 @@ public class JobTitleController {
     }
     @PutMapping("/job-title/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<JobTitleDto> updateJobTitle(@Valid @PathVariable Long id, @RequestBody JobTitleDto jobTitleDto){
+    public ResponseEntity<JobTitleDto> updateJobTitle(@PathVariable Long id, @Valid @RequestBody JobTitleDto jobTitleDto){
         JobTitleDto jobTitle = jobTitleService.update(id,jobTitleDto);
         return ResponseEntity.ok(jobTitle);
     }

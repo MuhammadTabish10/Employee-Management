@@ -3,10 +3,8 @@ package com.example.EmployeeManagement.dto;
 import com.example.EmployeeManagement.model.Department;
 import com.example.EmployeeManagement.model.JobTitle;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.PastOrPresent;
+
+import javax.validation.constraints.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +27,7 @@ public class EmployeeDto {
     private String lastName;
 
     @NotBlank(message = "Phone cannot be Null")
+    @Pattern(regexp = "^\\d{11}$", message = "Phone number must be 11 digits")
     private String phoneNumber;
 
     @NotBlank(message = "Address cannot be Null")
