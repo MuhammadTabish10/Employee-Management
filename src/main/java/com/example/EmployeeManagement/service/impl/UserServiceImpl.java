@@ -9,6 +9,8 @@ import com.example.EmployeeManagement.repository.RoleRepository;
 import com.example.EmployeeManagement.repository.UserRepository;
 import com.example.EmployeeManagement.service.UserService;
 import javax.transaction.Transactional;
+
+import com.example.EmployeeManagement.util.EmailUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +20,13 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final EmailUtils emailUtils;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, EmailUtils emailUtils, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.emailUtils = emailUtils;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -30,6 +34,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserDto registerUser(UserDto userDto) {
         User user = toEntity(userDto);
+        String password = user.getPassword();
 
         Optional<User> existingUser = userRepository.findByEmailAndStatusIsTrue(user.getEmail());
         if(existingUser.isPresent()){
@@ -46,8 +51,8 @@ public class UserServiceImpl implements UserService {
         }
         user.setRoles(roleList);
         userRepository.save(user);
+        emailUtils.sendWelcomeEmail(user, password);
         return toDto(user);
-
     }
 
     @Override

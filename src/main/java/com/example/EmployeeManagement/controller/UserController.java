@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -34,6 +35,13 @@ public class UserController {
     public ResponseEntity<Void> deleteUserById(@PathVariable Long id){
         userService.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/user/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<UserDto> updateUserById(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
+        UserDto user = userService.update(id, userDto);
+        return ResponseEntity.ok(user);
     }
 
     @PutMapping("/user/{id}/status")

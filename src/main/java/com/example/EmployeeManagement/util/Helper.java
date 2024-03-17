@@ -1,9 +1,11 @@
 package com.example.EmployeeManagement.util;
 
 import com.example.EmployeeManagement.dto.EmployeeDto;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
+@Component
 public class Helper {
 
     public static void validateEmployeeDto(EmployeeDto employeeDto) {
