@@ -2,22 +2,32 @@ package com.example.EmployeeManagement.controller;
 
 import com.example.EmployeeManagement.dto.EmployeeDto;
 import com.example.EmployeeManagement.service.EmployeeService;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.example.EmployeeManagement.service.ExcelGenerationService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final ExcelGenerationService excelGenerationService;
 
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, ExcelGenerationService excelGenerationService) {
         this.employeeService = employeeService;
+        this.excelGenerationService = excelGenerationService;
     }
 
     @PostMapping("/employee")
@@ -56,5 +66,24 @@ public class EmployeeController {
     public ResponseEntity<Void> setEmployeeStatusToActiveById(@PathVariable Long id) {
         employeeService.setToActive(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/employee/excel/{id}")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void getEmployeeExcel(
+            @PathVariable Long id,
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            HttpServletResponse response) throws IOException {
+
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=employee.xlsx");
+
+        Map<String,Object> map = employeeService.getEmployeeDataForExcel(id,startDate,endDate);
+        List<Map<String, Object>> excelData = excelGenerationService.convertEmployeeToExcelData(map);
+
+        OutputStream outputStream = response.getOutputStream();
+        excelGenerationService.createExcelFile(excelData, outputStream);
+        outputStream.close();
     }
 }

@@ -20,8 +20,8 @@ import java.time.LocalDateTime;
 public class SalaryDto {
     private Long id;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate createdAt;
 
     @Positive(message = "Amount should be positive")
     private Double amount;

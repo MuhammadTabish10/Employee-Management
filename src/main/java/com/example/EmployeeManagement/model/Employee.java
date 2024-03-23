@@ -1,6 +1,8 @@
 package com.example.EmployeeManagement.model;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,8 +24,13 @@ public class Employee {
     private String lastName;
     private String phoneNumber;
     private String address;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate hireDate;
+
     private Boolean status;
 
     @ManyToOne

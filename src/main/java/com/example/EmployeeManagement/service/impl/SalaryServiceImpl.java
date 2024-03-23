@@ -9,6 +9,7 @@ import com.example.EmployeeManagement.repository.SalaryRepository;
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class SalaryServiceImpl implements SalaryService {
     public SalaryDto save(SalaryDto salaryDto) {
         Salary salary = toEntity(salaryDto);
         salary.setStatus(true);
+        salary.setCreatedAt(LocalDate.now());
 
         salary.setEmployee(employeeRepository.findById(salary.getEmployee().getId())
                 .orElseThrow(() -> new RecordNotFoundException(String.format("Employee not found at id => %d", salary.getEmployee().getId()))));

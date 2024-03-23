@@ -2,7 +2,9 @@ package com.example.EmployeeManagement.service;
 
 import com.example.EmployeeManagement.dto.EmployeeDto;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface EmployeeService {
     EmployeeDto save(EmployeeDto employeeDto);
@@ -13,4 +15,5 @@ public interface EmployeeService {
     EmployeeDto update(Long id, EmployeeDto employeeDto);
     void delete(Long id);
     void setToActive(Long id);
+    Map<String,Object> getEmployeeDataForExcel(Long employeeId, LocalDate startDate, LocalDate endDate);
 }

@@ -2,27 +2,35 @@ package com.example.EmployeeManagement.service.impl;
 
 import com.example.EmployeeManagement.dto.EmployeeDto;
 import com.example.EmployeeManagement.exception.RecordNotFoundException;
+import com.example.EmployeeManagement.model.Attendance;
+import com.example.EmployeeManagement.model.Salary;
+import com.example.EmployeeManagement.repository.*;
 import com.example.EmployeeManagement.service.EmployeeService;
 import com.example.EmployeeManagement.model.Employee;
-import com.example.EmployeeManagement.repository.DepartmentRepository;
-import com.example.EmployeeManagement.repository.EmployeeRepository;
-import com.example.EmployeeManagement.repository.JobTitleRepository;
+
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.example.EmployeeManagement.util.Helper.validateEmployeeDto;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
+    private final AttendanceRepository attendanceRepository;
+    private final SalaryRepository salaryRepository;
     private final JobTitleRepository jobTitleRepository;
     private final DepartmentRepository departmentRepository;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, JobTitleRepository jobTitleRepository, DepartmentRepository departmentRepository) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, AttendanceRepository attendanceRepository, SalaryRepository salaryRepository, JobTitleRepository jobTitleRepository, DepartmentRepository departmentRepository) {
         this.employeeRepository = employeeRepository;
+        this.attendanceRepository = attendanceRepository;
+        this.salaryRepository = salaryRepository;
         this.jobTitleRepository = jobTitleRepository;
         this.departmentRepository = departmentRepository;
     }
@@ -125,6 +133,23 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(String.format("Attendance Not found at id => %d", id)));
         employeeRepository.setStatusWhereId(employee.getId(), true);
+    }
+
+    @Override
+    public Map<String, Object> getEmployeeDataForExcel(Long employeeId, LocalDate startDate, LocalDate endDate) {
+        Map<String,Object> employeeDataMap = new HashMap<>();
+
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new RecordNotFoundException(String.format("Employee not found at id => %d", employeeId)));
+
+        List<Attendance> employeeAttendance = attendanceRepository.findAllByEmployeeIdAndDateBetween(employeeId,startDate,endDate);
+        List<Salary> employeeSalaryList = salaryRepository.findSalariesByEmployeeIdAndDateRange(employeeId,startDate,endDate);
+
+        employeeDataMap.put("employee", employee);
+        employeeDataMap.put("attendance", employeeAttendance);
+        employeeDataMap.put("salary", employeeSalaryList);
+
+        return employeeDataMap;
     }
 
     public EmployeeDto toDto(Employee employee){

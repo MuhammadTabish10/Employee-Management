@@ -29,6 +29,7 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
             "/swagger-resources/**",
             "/swagger-ui/**",
             "/webjars/**",
+            "/api/employee/excel/{id}"
     };
 
     @Autowired

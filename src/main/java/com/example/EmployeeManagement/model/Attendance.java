@@ -1,6 +1,7 @@
 package com.example.EmployeeManagement.model;
 
 import com.example.EmployeeManagement.enums.AttendanceStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +22,10 @@ public class Attendance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
+
     private Time timeIn;
     private Time timeOut;
     private Boolean status;
