@@ -19,14 +19,13 @@ import java.time.LocalDate;
 public class AttendanceDto {
     private Long id;
 
+    @NotNull(message = "Date cannot be null")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
-    @NotNull(message = "TimeIn cannot be null")
     @JsonFormat(pattern = "HH:mm:ss")
     private Time timeIn;
 
-    @NotNull(message = "TimeOut cannot be null")
     @JsonFormat(pattern = "HH:mm:ss")
     private Time timeOut;
 

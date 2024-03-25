@@ -11,6 +11,7 @@ import com.example.EmployeeManagement.service.UserService;
 import javax.transaction.Transactional;
 
 import com.example.EmployeeManagement.util.EmailUtils;
+import com.example.EmployeeManagement.util.Helper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +21,16 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final EmailUtils emailUtils;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final EmailUtils emailUtils;
+    private final Helper helper;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, EmailUtils emailUtils, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, EmailUtils emailUtils, BCryptPasswordEncoder bCryptPasswordEncoder, Helper helper) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.emailUtils = emailUtils;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.helper = helper;
     }
 
     @Override
@@ -98,6 +101,12 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(String.format("User Not found at id => %d", id)));
         userRepository.setStatusWhereId(user.getId(), true);
+    }
+
+    @Override
+    public UserDto getCurrentUser() {
+        User user = helper.getCurrentUser();
+        return toDto(user);
     }
 
     public UserDto toDto(User user){

@@ -30,6 +30,14 @@ public class UserController {
         UserDto user = userService.getUserById(id);
         return ResponseEntity.ok(user);
     }
+
+    @GetMapping("/current-user")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<UserDto> getCurrentUser(){
+        UserDto user = userService.getCurrentUser();
+        return ResponseEntity.ok(user);
+    }
+
     @DeleteMapping("/user/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteUserById(@PathVariable Long id){

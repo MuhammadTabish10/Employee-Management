@@ -1,5 +1,6 @@
 package com.example.EmployeeManagement.util;
 
+import com.example.EmployeeManagement.exception.RecordNotFoundException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 
@@ -76,39 +77,74 @@ public class ExcelUtil {
         }
     }
 
-    public static void createSectionSheet(Sheet sheet, List<Map<String, Object>> sectionData, Workbook workbook) {
-        CellStyle centeredStyle = createCenteredStyle(workbook);
-        CellStyle boldStyle = createBoldAndCenteredStyle(workbook);
-        CellStyle headingStyle = createHeadingStyle(workbook);
+//    public static void createSectionSheet(Sheet sheet, List<Map<String, Object>> sectionData, Workbook workbook) {
+//        CellStyle centeredStyle = createCenteredStyle(workbook);
+//        CellStyle boldStyle = createBoldAndCenteredStyle(workbook);
+//        CellStyle headingStyle = createHeadingStyle(workbook);
+//
+//        int rowIndex = 0;
+//
+//        // Add section heading
+//        Row headingRow = sheet.createRow(rowIndex++);
+//        Cell headingCell = headingRow.createCell(0);
+//        headingCell.setCellValue(sheet.getSheetName());
+//        headingCell.setCellStyle(headingStyle); // Set heading style
+//        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, sectionData.get(0).size() - 1));
+//
+//        // Add section headers
+//        Row headerRow = sheet.createRow(rowIndex++);
+//        int colIndex = 0;
+//        for (String key : sectionData.get(0).keySet()) {
+//            Cell cell = headerRow.createCell(colIndex++);
+//            cell.setCellValue(key);
+//            cell.setCellStyle(boldStyle);
+//        }
+//
+//        // Populate section data rows
+//        for (Map<String, Object> record : sectionData) {
+//            Row dataRow = sheet.createRow(rowIndex++);
+//            populateRowWithData(dataRow, record.values().stream().toList(), centeredStyle);
+//        }
+//
+//        // Auto-size columns
+//        autoSizeColumns(sheet, sectionData.get(0).size());
+//    }
 
-        int rowIndex = 0;
+    public static void createSectionSheet(Sheet sheet, List<Map<String, Object>> sectionData, Workbook workbook)
+    {
+        if (!sectionData.isEmpty()) {
+            CellStyle centeredStyle = createCenteredStyle(workbook);
+            CellStyle boldStyle = createBoldAndCenteredStyle(workbook);
+            CellStyle headingStyle = createHeadingStyle(workbook);
 
-        // Add section heading
-        Row headingRow = sheet.createRow(rowIndex++);
-        Cell headingCell = headingRow.createCell(0);
-        headingCell.setCellValue(sheet.getSheetName());
-        headingCell.setCellStyle(headingStyle); // Set heading style
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, sectionData.get(0).size() - 1));
+            int rowIndex = 0;
 
-        // Add section headers
-        Row headerRow = sheet.createRow(rowIndex++);
-        int colIndex = 0;
-        for (String key : sectionData.get(0).keySet()) {
-            Cell cell = headerRow.createCell(colIndex++);
-            cell.setCellValue(key);
-            cell.setCellStyle(boldStyle);
+            // Add section heading
+            Row headingRow = sheet.createRow(rowIndex++);
+            Cell headingCell = headingRow.createCell(0);
+            headingCell.setCellValue(sheet.getSheetName());
+            headingCell.setCellStyle(headingStyle); // Set heading style
+            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, sectionData.get(0).size() - 1));
+
+            // Add section headers
+            Row headerRow = sheet.createRow(rowIndex++);
+            int colIndex = 0;
+            for (String key : sectionData.get(0).keySet()) {
+                Cell cell = headerRow.createCell(colIndex++);
+                cell.setCellValue(key);
+                cell.setCellStyle(boldStyle);
+            }
+
+            // Populate section data rows
+            for (Map<String, Object> record : sectionData) {
+                Row dataRow = sheet.createRow(rowIndex++);
+                populateRowWithData(dataRow, record.values().stream().toList(), centeredStyle);
+            }
+
+            // Auto-size columns
+            autoSizeColumns(sheet, sectionData.get(0).size());
         }
-
-        // Populate section data rows
-        for (Map<String, Object> record : sectionData) {
-            Row dataRow = sheet.createRow(rowIndex++);
-            populateRowWithData(dataRow, record.values().stream().toList(), centeredStyle);
-        }
-
-        // Auto-size columns
-        autoSizeColumns(sheet, sectionData.get(0).size());
     }
-
 }
 
 
