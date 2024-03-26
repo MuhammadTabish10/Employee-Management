@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
 
+@SuppressWarnings("ALL")
 @Service
 public class ExcelGenerationServiceImpl implements ExcelGenerationService {
 
@@ -114,20 +115,28 @@ public class ExcelGenerationServiceImpl implements ExcelGenerationService {
         employeeDataSection.put("employee", employeeData);
 
         // Combine all attendance records into a single list
+        List<Attendance> sortedAttendances = attendances.stream()
+                .sorted(Comparator.comparing(Attendance::getDate).reversed())
+                .toList();
+
         List<Map<String, Object>> attendanceList = new ArrayList<>();
-        for (Attendance attendance : attendances) {
+        for (Attendance attendance : sortedAttendances) {
             Map<String, Object> attendanceData = new LinkedHashMap<>();
             attendanceData.put("Attendance Date", attendance.getDate().toString());
-            attendanceData.put("Time In", attendance.getTimeIn().toString());
-            attendanceData.put("Time Out", attendance.getTimeOut().toString());
+            attendanceData.put("Time In", attendance.getTimeIn() != null ? attendance.getTimeIn().toString() : "N/A");
+            attendanceData.put("Time Out", attendance.getTimeOut() != null ? attendance.getTimeOut().toString() : "N/A");
             attendanceData.put("Attendance Status", attendance.getAttendanceStatus().toString());
             attendanceList.add(attendanceData);
         }
         employeeDataSection.put("Attendances", attendanceList);
 
         // Combine all salary records into a single list
+        List<Salary> sortedSalaries = salaries.stream()
+                .sorted(Comparator.comparing(Salary::getCreatedAt).reversed())
+                .toList();
+
         List<Map<String, Object>> salaryList = new ArrayList<>();
-        for (Salary salary : salaries) {
+        for (Salary salary : sortedSalaries) {
             Map<String, Object> salaryData = new LinkedHashMap<>();
             salaryData.put("Salary Date", salary.getCreatedAt().toString());
             salaryData.put("Salary Amount", salary.getAmount());
