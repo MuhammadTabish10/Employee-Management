@@ -31,6 +31,18 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
+    public List<PermissionDto> getAllPermissionsByRole() {
+        List<Permission> permissionList = permissionRepository.findAll();
+        List<PermissionDto> permissionDtoList = new ArrayList<>();
+
+        for (Permission permission : permissionList) {
+            PermissionDto permissionDto = toDto(permission);
+            permissionDtoList.add(permissionDto);
+        }
+        return permissionDtoList;
+    }
+
+    @Override
     public PermissionDto findById(Long id) {
         Permission permission = permissionRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(String.format("Permission Not found at id => %d", id)));
