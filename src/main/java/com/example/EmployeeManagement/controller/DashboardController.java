@@ -19,31 +19,31 @@ public class DashboardController {
     }
 
     @GetMapping("/employee/count")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     public ResponseEntity<Integer> getEmployeeCount(){
         return ResponseEntity.ok(dashboardService.getTotalEmployeeCount());
     }
 
     @GetMapping("/department/count")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     public ResponseEntity<Integer> getDepartmentCount(){
         return ResponseEntity.ok(dashboardService.getTotalDepartmentCount());
     }
 
     @GetMapping("/user/count")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     public ResponseEntity<Integer> getUserCount(){
         return ResponseEntity.ok(dashboardService.getTotalUserCount());
     }
 
     @GetMapping("/employee/status/count")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     public ResponseEntity<Map<String, Integer>> getEmployeeStatusCount(){
         return ResponseEntity.ok(dashboardService.getTotalActiveAndInActiveEmployees());
     }
 
     @GetMapping("/employee/job-title/count")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     public ResponseEntity<Map<String, Integer>> getEmployeeJobTitleCount(){
         return ResponseEntity.ok(dashboardService.getTotalEmployeesAccordingToJobTitle());
     }

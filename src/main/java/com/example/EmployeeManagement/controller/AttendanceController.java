@@ -20,38 +20,38 @@ public class AttendanceController {
     }
 
     @PostMapping("/attendance")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     public ResponseEntity<AttendanceDto> createAttendance(@Valid @RequestBody AttendanceDto attendanceDto){
         AttendanceDto attendance = attendanceService.save(attendanceDto);
         return ResponseEntity.ok(attendance);
     }
     @GetMapping("/attendance/status/{status}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     public ResponseEntity<List<AttendanceDto>> getAllAttendance(@PathVariable Boolean status){
         List<AttendanceDto> attendances = attendanceService.getAllAttendance(status);
         return ResponseEntity.ok(attendances);
     }
     @GetMapping("/attendance/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     public ResponseEntity<AttendanceDto> getAttendanceById(@PathVariable Long id){
         AttendanceDto attendance = attendanceService.getAttendanceById(id);
         return ResponseEntity.ok(attendance);
     }
     @PutMapping("/attendance/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     public ResponseEntity<AttendanceDto> updateAttendance(@PathVariable Long id, @Valid @RequestBody AttendanceDto attendanceDto){
         AttendanceDto attendance = attendanceService.update(id, attendanceDto);
         return ResponseEntity.ok(attendance);
     }
     @DeleteMapping("/attendance/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     public ResponseEntity<Void> deleteAttendanceById(@PathVariable Long id){
         attendanceService.delete(id);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/attendance/{id}/status")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     public ResponseEntity<Void> setAttendanceStatusToActiveById(@PathVariable Long id){
         attendanceService.setToActive(id);
         return ResponseEntity.ok().build();

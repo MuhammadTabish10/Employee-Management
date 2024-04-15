@@ -19,37 +19,37 @@ public class JobTitleController {
     }
 
     @PostMapping("/job-title")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     public ResponseEntity<JobTitleDto> createJobTitle(@Valid @RequestBody JobTitleDto jobTitleDto){
         JobTitleDto jobTitle = jobTitleService.save(jobTitleDto);
         return ResponseEntity.ok(jobTitle);
     }
     @GetMapping("/job-title/status/{status}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     public ResponseEntity<List<JobTitleDto>> getAllJobTitles(@PathVariable Boolean status){
         List<JobTitleDto> jobTitleDtoList = jobTitleService.getAllJobTitle(status);
         return ResponseEntity.ok(jobTitleDtoList);
     }
     @GetMapping("/job-title/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     public ResponseEntity<JobTitleDto> getJobTitleById(@PathVariable Long id){
         JobTitleDto jobTitleDto = jobTitleService.getJobTitleById(id);
         return ResponseEntity.ok(jobTitleDto);
     }
     @PutMapping("/job-title/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     public ResponseEntity<JobTitleDto> updateJobTitle(@PathVariable Long id, @Valid @RequestBody JobTitleDto jobTitleDto){
         JobTitleDto jobTitle = jobTitleService.update(id,jobTitleDto);
         return ResponseEntity.ok(jobTitle);
     }
     @DeleteMapping("/job-title/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     public ResponseEntity<Void> deleteJobTitleById(@PathVariable Long id){
         jobTitleService.delete(id);
         return ResponseEntity.ok().build();
     }
     @PutMapping("/job-title/{id}/status")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     public ResponseEntity<Void> setJobTitleStatusToActiveById(@PathVariable Long id) {
         jobTitleService.setToActive(id);
         return ResponseEntity.ok().build();
