@@ -11,4 +11,5 @@ public interface SalaryService {
     SalaryDto update(Long id, SalaryDto salaryDto);
     void delete(Long id);
     void setToActive(Long id);
+    //s
 }
